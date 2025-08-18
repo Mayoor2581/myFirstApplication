@@ -32,12 +32,12 @@ public class UserEntryTest {
 		assertNotNull(userEntryServices.saveUserEntryEncoded(userEntry) );
 	}
 
-	@Disabled
+	
 	@ParameterizedTest
 	@CsvSource({
 		"1,2,3",
 		"2,3,5",
-		"3,3,9"
+		"3,3,6"
 	})
 	public void testAdding(int a, int b, int sum) {
 		assertEquals(sum, a+b);
