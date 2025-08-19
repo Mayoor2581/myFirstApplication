@@ -1,6 +1,5 @@
 package services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,8 +11,11 @@ import repository.UserEntryRepository;
 @Component
 public class UserDetailServiceIMPL implements UserDetailsService{
 	
-	@Autowired
-	private UserEntryRepository userEntryRepository;
+	private final UserEntryRepository userEntryRepository;
+	
+	public UserDetailServiceIMPL(UserEntryRepository userEntryRepository){
+		this.userEntryRepository = userEntryRepository;
+	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

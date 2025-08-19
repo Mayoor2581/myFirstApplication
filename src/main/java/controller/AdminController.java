@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,11 @@ import services.UserEntryServices;
 @RequestMapping("/admin")
 public class AdminController {
 
-	@Autowired
-	private UserEntryServices userEntryServices;
+	private final UserEntryServices userEntryServices;
+	
+	public AdminController(UserEntryServices userEntryServices) {
+		this.userEntryServices = userEntryServices;
+	}
 	
 	@GetMapping("GetAllUsers")
 	public ResponseEntity<List<UserEntry>> getAllUsers() {

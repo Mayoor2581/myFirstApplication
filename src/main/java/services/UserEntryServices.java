@@ -3,7 +3,6 @@ package services;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,11 +13,14 @@ import repository.UserEntryRepository;
 
 @Service
 public class UserEntryServices {
-	@Autowired 
-	private UserEntryRepository userEntryRepository;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private final UserEntryRepository userEntryRepository;
+	private final PasswordEncoder passwordEncoder;
+	
+	public UserEntryServices(UserEntryRepository userEntryRepository, PasswordEncoder passwordEncoder){
+		this.userEntryRepository = userEntryRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
 	
 	//private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 //	@PostConstruct

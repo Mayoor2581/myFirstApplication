@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +18,12 @@ import services.UserEntryServices;
 @RestController
 @RequestMapping("/public")
 public class PublicController {
+	
+	private final UserEntryServices userEntryServices;
 
-	@Autowired
-	private UserEntryServices userEntryServices;
+	public PublicController(UserEntryServices userEntryServices){
+		this.userEntryServices = userEntryServices; 
+	}
 	
 	@GetMapping("/healthCheck")
 	public void healthCheck() {

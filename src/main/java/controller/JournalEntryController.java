@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,15 +26,19 @@ import services.JournalEntryServices;
 @RestController
 @RequestMapping("/Journal")
 public class JournalEntryController {
-	@Autowired
-	private JournalEntryServices journalEntryServices;
+	
+	private final JournalEntryServices journalEntryServices;
+	
+	public JournalEntryController(JournalEntryServices journalEntryServices) {
+		this.journalEntryServices = journalEntryServices;
+	}
 	
 	@GetMapping("GetJournalEntry")
 	public ResponseEntity<?> findJournalEntries() {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String userName = authentication.getName();
-		List<JournalEntry> journalEntries = journalEntryServices.GetJournalEntriesByName(userName);
+		List<JournalEntry> journalEntries = journalEntryServices.getJournalEntriesByName(userName);
 		if(!journalEntries.isEmpty()) {
 			return new ResponseEntity<>(journalEntries,HttpStatus.FOUND);
 		}
@@ -70,7 +73,7 @@ public class JournalEntryController {
 			) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String userName = authentication.getName();
-		List<JournalEntry> journalEntries = journalEntryServices.GetJournalEntriesByName(userName).stream().filter(x->x.getId().equals(myId)).collect(Collectors.toList());
+		List<JournalEntry> journalEntries = journalEntryServices.getJournalEntriesByName(userName).stream().filter(x->x.getId().equals(myId)).collect(Collectors.toList());
 		if(!journalEntries.isEmpty()) {
 			Optional<JournalEntry> journalEntry = journalEntryServices.findById(myId);
 			if(journalEntry.isPresent()) {
@@ -88,7 +91,7 @@ public class JournalEntryController {
 	public ResponseEntity<JournalEntry> getEntry(@PathVariable ObjectId myId) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String userName = authentication.getName();
-		List<JournalEntry> journalEntries = journalEntryServices.GetJournalEntriesByName(userName).stream().filter(x->x.getId().equals(myId)).collect(Collectors.toList());
+		List<JournalEntry> journalEntries = journalEntryServices.getJournalEntriesByName(userName).stream().filter(x->x.getId().equals(myId)).collect(Collectors.toList());
 		if(!journalEntries.isEmpty()) {
 			Optional<JournalEntry> journalEntry = journalEntryServices.findById(myId);
 			if(journalEntry.isPresent()) {

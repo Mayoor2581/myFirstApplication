@@ -1,10 +1,6 @@
 package controller;
 
 
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,9 +19,12 @@ import services.UserEntryServices;
 @RequestMapping("/User")
 public class UserEntryController {
 	
-	@Autowired
-	private UserEntryServices userEntryServices;
+	private final UserEntryServices userEntryServices;
 	
+	public UserEntryController(UserEntryServices userEntryServices){
+		this.userEntryServices = userEntryServices;
+	}
+		
 	@PutMapping("/UpdateUser")
 	public ResponseEntity<?> updateUserEntry(@RequestBody UserEntry newUserEntry){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

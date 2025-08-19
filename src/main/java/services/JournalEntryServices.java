@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import entity.JournalEntry;
@@ -15,11 +14,14 @@ import repository.JournalEntryRepository;
 
 @Service
 public class JournalEntryServices {
-	@Autowired 
-	private JournalEntryRepository journalEntryRepository;
 	
-	@Autowired
-	private UserEntryServices userEntryServices;
+	private final JournalEntryRepository journalEntryRepository;
+	private final UserEntryServices userEntryServices;
+	
+	public JournalEntryServices(JournalEntryRepository journalEntryRepository, UserEntryServices userEntryServices){
+		this.journalEntryRepository = journalEntryRepository;
+		this.userEntryServices = userEntryServices;
+	}
 	
 	public List<JournalEntry> getAll(){
 		return journalEntryRepository.findAll();
@@ -35,8 +37,7 @@ public class JournalEntryServices {
 			userEntryServices.saveUserEntry(user);
 		}
 		catch(Exception e) {
-			System.out.println(e);
-			throw new RuntimeException(e);
+			throw new RuntimeException("cant save Entry");
 		}
 		
 	}
@@ -55,7 +56,7 @@ public class JournalEntryServices {
 			boolean removed = user.getJournalEntries().removeIf(x -> x.getId().equals(myId));
 			if(removed) {
 				userEntryServices.saveUserEntry(user);
-				journalEntryRepository.deleteById((ObjectId) myId);
+				journalEntryRepository.deleteById(myId);
 			}
 		}
 		catch(Exception e) {
@@ -63,11 +64,10 @@ public class JournalEntryServices {
 		}
 	}
 	
-	public List<JournalEntry> GetJournalEntriesByName(String userName) {
+	public List<JournalEntry> getJournalEntriesByName(String userName) {
 		UserEntry userEntry = userEntryServices.findUserByName(userName);
 		if(userEntry!=null) {
-			List<JournalEntry> journalEntry = userEntry.getJournalEntries();
-			return journalEntry;
+			return userEntry.getJournalEntries();
 		}
 		return new ArrayList<>();
 		
