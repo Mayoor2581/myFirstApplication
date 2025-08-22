@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dto.JournalEntryDTO;
 import entity.JournalEntry;
 import services.JournalEntryServices;
 
@@ -46,7 +47,7 @@ public class JournalEntryController {
 	}
 	
 	@PostMapping("CreateEntry")
-	public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry){
+	public ResponseEntity<JournalEntryDTO> createEntry(@RequestBody JournalEntryDTO myEntry){
 		try {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String userName = authentication.getName();
@@ -73,8 +74,13 @@ public class JournalEntryController {
 			) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String userName = authentication.getName();
-		List<JournalEntry> journalEntries = journalEntryServices.getJournalEntriesByName(userName).stream().filter(x->x.getId().equals(myId)).collect(Collectors.toList());
-		if(!journalEntries.isEmpty()) {
+		JournalEntry journalEntries = journalEntryServices
+											.getJournalEntriesByName(userName)
+											.stream()
+											.filter(x->x.getId().equals(myId))
+											.findFirst()
+											.orElse(null);
+		if(journalEntries != null) {
 			Optional<JournalEntry> journalEntry = journalEntryServices.findById(myId);
 			if(journalEntry.isPresent()) {
 				JournalEntry old = journalEntry.get();

@@ -37,7 +37,7 @@ public class PublicController {
 	
 	@PostMapping("/CreateUser")
 	public ResponseEntity<UserEntry> saveUserEntry(@RequestBody UserEntry userEntry){	
-		System.out.println("hello");
+		log.info("hello");
 		try {
 			userEntryServices.saveUserEntryEncoded(userEntry);
 			return new ResponseEntity<>(userEntry,HttpStatus.CREATED);

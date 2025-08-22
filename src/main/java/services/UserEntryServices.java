@@ -22,18 +22,19 @@ public class UserEntryServices {
 		this.passwordEncoder = passwordEncoder;
 	}
 	
+	//I may use it sometime later
 	//private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//	@PostConstruct
-//	public void existingPasswordEncoder() {
-//		List<UserEntry> users = userEntryRepository.findAll();
-//		for(UserEntry user : users) {
-//			if(!user.getPassword().startsWith("$2a$")) {
-//				user.setPassword(passwordEncoder.encode(user.getPassword()));
-//				userEntryRepository.save(user);
-//			}
-//		}
-//		System.out.println("changed existing password");
-//	}
+	//	@PostConstruct
+	//	public void existingPasswordEncoder() {
+	//		List<UserEntry> users = userEntryRepository.findAll();
+	//		for(UserEntry user : users) {
+	//			if(!user.getPassword().startsWith("$2a$")) {
+	//				user.setPassword(passwordEncoder.encode(user.getPassword()));
+	//				userEntryRepository.save(user);
+	//			}
+	//		}
+	//		System.out.println("changed existing password");
+	//	}
 	
 	public List<UserEntry> getUserEntry(){
 		return userEntryRepository.findAll();

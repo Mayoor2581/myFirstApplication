@@ -3,7 +3,6 @@ package services;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -13,13 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.edigest.myFirstApplication.MyFirstApplication;
 
 import entity.UserEntry;
-import repository.UserEntryRepository;
 
 @SpringBootTest(classes = MyFirstApplication.class)
 public class UserEntryTest {
-	
-	@Autowired
-	private UserEntryRepository userEntryRepository;
 	
 	@Autowired
 	private UserEntryServices userEntryServices;

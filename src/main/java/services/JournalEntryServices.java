@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
+import dto.JournalEntryDTO;
 import entity.JournalEntry;
 import entity.UserEntry;
 import repository.JournalEntryRepository;
@@ -28,16 +29,22 @@ public class JournalEntryServices {
 	}
 	
 	//@Transactional
-	public void saveEntry(JournalEntry myEntry, String userName) {
+	public void saveEntry(JournalEntryDTO myEntry, String userName) {
 		try {
-			myEntry.setDate(LocalDateTime.now());
-			JournalEntry saved = journalEntryRepository.save(myEntry);
+			JournalEntry entry = new JournalEntry();
+			entry.setTitle(myEntry.getTitle());
+			entry.setContent(myEntry.getContent());
+			entry.setDate(LocalDateTime.now());
+			JournalEntry saved = journalEntryRepository.save(entry);
 			UserEntry user = userEntryServices.findUserByName(userName);
+			if(user == null) {
+				throw new JournalEntrySaveException("Not Found");
+			}
 			user.getJournalEntries().add(saved);
 			userEntryServices.saveUserEntry(user);
 		}
 		catch(Exception e) {
-			throw new RuntimeException("cant save Entry");
+			throw new JournalEntrySaveException("cant save Entry", e);
 		}
 		
 	}
@@ -60,7 +67,7 @@ public class JournalEntryServices {
 			}
 		}
 		catch(Exception e) {
-			throw new RuntimeException("Failed to Delete",e);
+			throw new JournalEntryDeleteException("Failed to Delete",e);
 		}
 	}
 	
@@ -70,7 +77,21 @@ public class JournalEntryServices {
 			return userEntry.getJournalEntries();
 		}
 		return new ArrayList<>();
-		
 	}
+}
+
+class JournalEntrySaveException extends RuntimeException {
+    public JournalEntrySaveException(String message, Throwable cause) {
+        super(message, cause);
+    }
+    public JournalEntrySaveException(String message) {
+    	super(message);
+    }
+}
+
+class JournalEntryDeleteException extends RuntimeException {
+    public JournalEntryDeleteException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
 
