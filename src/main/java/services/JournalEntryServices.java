@@ -29,19 +29,20 @@ public class JournalEntryServices {
 	}
 	
 	//@Transactional
-	public void saveEntry(JournalEntryDTO myEntry, String userName) {
+	public JournalEntry saveEntry(JournalEntryDTO myEntryDTO, String userName) {
 		try {
-			JournalEntry entry = new JournalEntry();
-			entry.setTitle(myEntry.getTitle());
-			entry.setContent(myEntry.getContent());
-			entry.setDate(LocalDateTime.now());
-			JournalEntry saved = journalEntryRepository.save(entry);
+			JournalEntry myEntry = new JournalEntry();
+			myEntry.setTitle(myEntryDTO.getTitle());
+			myEntry.setContent(myEntryDTO.getContent());
+			myEntry.setDate(LocalDateTime.now());
+			JournalEntry saved = journalEntryRepository.save(myEntry);
 			UserEntry user = userEntryServices.findUserByName(userName);
 			if(user == null) {
 				throw new JournalEntrySaveException("Not Found");
 			}
 			user.getJournalEntries().add(saved);
 			userEntryServices.saveUserEntry(user);
+			return myEntry;
 		}
 		catch(Exception e) {
 			throw new JournalEntrySaveException("cant save Entry", e);

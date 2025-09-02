@@ -47,12 +47,12 @@ public class JournalEntryController {
 	}
 	
 	@PostMapping("CreateEntry")
-	public ResponseEntity<JournalEntryDTO> createEntry(@RequestBody JournalEntryDTO myEntry){
+	public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntryDTO myEntryDTO){
 		try {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String userName = authentication.getName();
-			journalEntryServices.saveEntry(myEntry,userName);
-			return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
+			JournalEntry myentry = journalEntryServices.saveEntry(myEntryDTO,userName);
+			return new ResponseEntity<>(myentry, HttpStatus.CREATED);
 		}
 		catch(Exception e){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
