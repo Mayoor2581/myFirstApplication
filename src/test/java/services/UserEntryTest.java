@@ -3,9 +3,12 @@ package services;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -13,10 +16,10 @@ import com.edigest.myFirstApplication.MyFirstApplication;
 
 import entity.UserEntry;
 
-@SpringBootTest(classes = MyFirstApplication.class)
+@ExtendWith(MockitoExtension.class)
 public class UserEntryTest {
 	
-	@Autowired
+	@Mock
 	private UserEntryServices userEntryServices;
 	
 	
