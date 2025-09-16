@@ -28,10 +28,10 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
-		<sonar.projectKey>mayoor2581_myFirstApplication</sonar.projectKey>
+		<sonar.projectKey>springbootapplication_myfirstapplication</sonar.projectKey>
 	    <sonar.host.url>http://localhost:9000</sonar.host.url>
-	    <sonar.token>sqp_5cc0892bc9cbf5d2579856038ef78a455b5ff4cb</sonar.token>
-  		<sonar.organization>mayoor2581</sonar.organization>
+	    <sonar.token>sqp_2e8332071207bd59046f9ecd60e9607f1d958033</sonar.token>
+  		<sonar.organization>springbootapplication</sonar.organization>
 	   	
 	</properties>
 	<dependencies>
