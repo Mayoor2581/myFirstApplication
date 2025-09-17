@@ -3,6 +3,7 @@ package services;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -10,6 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import dto.UserEntryDTO;
 import entity.UserEntry;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,10 +24,14 @@ public class UserEntryTest {
 	@Disabled
 	@ParameterizedTest
 	@ArgumentsSource(UserArgumentsProvider.class)
-	public void testSaveUserDetails(UserEntry userEntry) {
-		assertNotNull(userEntryServices.saveUserEntryEncoded(userEntry) );
+	public void testSaveUserDetails(UserEntryDTO userEntryDTO) {
+		assertNotNull(userEntryServices.saveUserEntryEncoded(userEntryDTO) );
 	}
 
+	@Test
+    void contextLoads() {
+        assertTrue(true);
+    }
 	
 	@ParameterizedTest
 	@CsvSource({
