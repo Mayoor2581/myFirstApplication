@@ -70,7 +70,7 @@ public class JournalEntryController {
 	@PutMapping("UpdateJournalEntry/{myId}")
 	public ResponseEntity<?> updateEntry(
 			@PathVariable ObjectId myId,
-			@RequestBody JournalEntry newEntry
+			@RequestBody JournalEntryDTO newEntryDTO
 			) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String userName = authentication.getName();
@@ -81,14 +81,10 @@ public class JournalEntryController {
 											.findFirst()
 											.orElse(null);
 		if(journalEntries != null) {
-			Optional<JournalEntry> journalEntry = journalEntryServices.findById(myId);
-			if(journalEntry.isPresent()) {
-				JournalEntry old = journalEntry.get();
-				old.setTitle(newEntry.getTitle());
-				old.setContent(newEntry.getContent());
-				journalEntryServices.saveEntry(old);
+				journalEntries.setTitle(newEntryDTO.getTitle());
+				journalEntries.setContent(newEntryDTO.getContent());
+				journalEntryServices.saveEntry(journalEntries);
 				return new ResponseEntity<>(journalEntries,HttpStatus.CREATED);
-			}
 		}
 		return new ResponseEntity<>(journalEntries,HttpStatus.EXPECTATION_FAILED);
 	}

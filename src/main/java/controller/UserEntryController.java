@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dto.UserEntryDTO;
 import entity.UserEntry;
 import services.UserEntryServices;
 
@@ -26,13 +27,13 @@ public class UserEntryController {
 	}
 		
 	@PutMapping("/UpdateUser")
-	public ResponseEntity<?> updateUserEntry(@RequestBody UserEntry newUserEntry){
+	public ResponseEntity<?> updateUserEntry(@RequestBody UserEntryDTO newUserEntryDTO){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String oldUserName = authentication.getName();
-		UserEntry old = userEntryServices.findUserByName(oldUserName);		
-		old.setUserName(newUserEntry.getUserName());
-		old.setPassword(newUserEntry.getPassword());
-		userEntryServices.saveUserEntryEncoded(old);
+		UserEntry old = userEntryServices.findUserByName(oldUserName);	
+		if(old!=null) {
+			userEntryServices.saveUserEntryEncoded(newUserEntryDTO);
+		}
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	

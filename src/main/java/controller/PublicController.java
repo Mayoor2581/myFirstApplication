@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dto.UserEntryDTO;
 import entity.UserEntry;
 import lombok.extern.slf4j.Slf4j;
 import services.UserEntryServices;
@@ -36,11 +37,11 @@ public class PublicController {
 	}
 	
 	@PostMapping("/CreateUser")
-	public ResponseEntity<UserEntry> saveUserEntry(@RequestBody UserEntry userEntry){	
+	public ResponseEntity<UserEntryDTO> saveUserEntry(@RequestBody UserEntryDTO userEntryDTO){	
 		log.info("hello");
 		try {
-			userEntryServices.saveUserEntryEncoded(userEntry);
-			return new ResponseEntity<>(userEntry,HttpStatus.CREATED);
+			userEntryServices.saveUserEntryEncoded(userEntryDTO);
+			return new ResponseEntity<>(userEntryDTO,HttpStatus.CREATED);
 		}
 		catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

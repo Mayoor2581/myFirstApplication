@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import dto.UserEntryDTO;
 import entity.UserEntry;
 import repository.UserEntryRepository;
 
@@ -44,9 +45,19 @@ public class UserEntryServices {
 		return userEntryRepository.save(userEntry);
 	}
 	
-	public UserEntry saveUserEntryEncoded(UserEntry userEntry) {
-		userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
+	public UserEntry saveUserEntryEncoded(UserEntryDTO userEntryDTO) {
+		UserEntry userEntry = new UserEntry();
+		userEntry.setUserName(userEntryDTO.getUserName());
+		userEntry.setPassword(passwordEncoder.encode(userEntryDTO.getPassword()));
 		userEntry.setRoles(Arrays.asList("User"));
+		return userEntryRepository.save(userEntry);
+	}
+	
+	public UserEntry saveAdmin(UserEntryDTO userEntryDTO) {
+		UserEntry userEntry = new UserEntry();
+		userEntry.setUserName(userEntryDTO.getUserName());
+		userEntry.setPassword(passwordEncoder.encode(userEntryDTO.getPassword()));
+		userEntry.setRoles(Arrays.asList("User","ADMIN"));
 		return userEntryRepository.save(userEntry);
 	}
 	
@@ -58,9 +69,5 @@ public class UserEntryServices {
 		userEntryRepository.deleteByUserName(userEntry);
 	}
 
-	public UserEntry saveAdmin(UserEntry userEntry) {
-		userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
-		userEntry.setRoles(Arrays.asList("User","ADMIN"));
-		return userEntryRepository.save(userEntry);
-	}
+	
 }

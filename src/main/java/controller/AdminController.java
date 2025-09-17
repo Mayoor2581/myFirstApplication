@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dto.UserEntryDTO;
 import entity.UserEntry;
 import services.UserEntryServices;
 
@@ -33,8 +34,8 @@ public class AdminController {
 	}
 	
 	@PostMapping("CreateAdmin")
-	public ResponseEntity<?> createAdminEntry(@RequestBody UserEntry userEntry) {
-		userEntryServices.saveAdmin(userEntry);
+	public ResponseEntity<?> createAdminEntry(@RequestBody UserEntryDTO userEntryDTO) {
+		userEntryServices.saveAdmin(userEntryDTO);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
